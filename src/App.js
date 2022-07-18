@@ -8,13 +8,14 @@ import TechnoList from './pages/TechnoList';
 
 function App() {
   // Utilisation de useState avec un tableau vide (morceau d'état/me) qui contiendra des objets
-  // (me/getter/technos) - ex: -> [{name: 'react', category: 'front', description: 'Learn React'}, {}, {}]
+  // (me/getter/technos) - ex: -> [{name: 'react', category: 'front', description: 'Learn React'}, {autre objet}, {autre objet}]
   // (me/setter/setTechnos) - modification des objets
   const [technos, setTechnos] = useState([]);
 
   // fonction de jonction parent(App)/enfant(TechnoAdd) - (props = valeur(fonction) -> TechnoAdd)
   function handleAddTechno(techno) {
     console.log('handleAddTechno', techno);
+    setTechnos([...technos, techno]);
   }
   return (
     <>

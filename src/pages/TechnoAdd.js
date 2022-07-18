@@ -1,16 +1,28 @@
+import { useState } from "react";
+
 export default function TechnoAdd(props) {
+    const [techno, setTechno] = useState({
+        technoname: '',
+        technocategory: '',
+        technodescription: ''
+    });
+
     // props (objet) -> destructuré pour récupérer la propriétée handleAddTechno
     const { handleAddTechno } = props;
-
-    const techno = {
-        name: 'React',
-        category: 'front',
-        description: 'Learn React'
-    }
 
     function handleSubmit(evt) {
         evt.preventDefault();
         handleAddTechno(techno);
+        setTechno({
+            technoname: '',
+            technocategory: '',
+            technodescription: ''  
+        })
+    }
+
+    function handleChange(evt) {
+        const { name, value } = evt.target;
+        setTechno({...techno, [name]: value});
     }
 
     return (
@@ -18,12 +30,12 @@ export default function TechnoAdd(props) {
             <h1>Add a Techno</h1>
             <div>
                 <form onSubmit={(evt) => handleSubmit(evt)}>
-                    <label htmlFor="techno-name">Name</label>
+                    <label htmlFor="technoname">Name</label>
                     <br/>
-                    <input type="text" name="techno-name" id="techno-name" />
+                    <input type="text" name="technoname" id="technoname" value={techno.technoname} onChange={(evt) => handleChange(evt)} />
                     <br/>
-                    <label htmlFor="techno-category">Category</label>
-                    <select name="techno-category" id="techno-category">
+                    <label htmlFor="technocategory">Category</label>
+                    <select name="technocategory" id="technocategory" value={techno.technocategory} onChange={(evt) => handleChange(evt)}>
                         <option value="">Select a category</option>
                         <option value="front">Front</option>
                         <option value="back">Back</option>
@@ -31,11 +43,11 @@ export default function TechnoAdd(props) {
                         <option value="other">Other</option>
                     </select>
                     <br/>
-                    <label htmlFor="techno-description">Description</label>
+                    <label htmlFor="technodescription">Description</label>
                     <br/>
-                    <textarea name="techno-description" id="techno-description" cols="30" rows="10"></textarea>
+                    <textarea name="technodescription" id="technodescription" cols="30" rows="10" value={techno.technodescription} onChange={(evt) => handleChange(evt)}></textarea>
                     <br/>
-                    <input type="submit" value="Add Techno" />
+                    <input type="submit" value="Add Techno" className="btn"/>
                 </form>
             </div>
         </div>
