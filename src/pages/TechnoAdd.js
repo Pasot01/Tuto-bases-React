@@ -1,9 +1,23 @@
-export default function TechnoAdd() {
+export default function TechnoAdd(props) {
+    // props (objet) -> destructuré pour récupérer la propriétée handleAddTechno
+    const { handleAddTechno } = props;
+
+    const techno = {
+        name: 'React',
+        category: 'front',
+        description: 'Learn React'
+    }
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+        handleAddTechno(techno);
+    }
+
     return (
         <div className="techno-add">
             <h1>Add a Techno</h1>
             <div>
-                <form>
+                <form onSubmit={(evt) => handleSubmit(evt)}>
                     <label htmlFor="techno-name">Name</label>
                     <br/>
                     <input type="text" name="techno-name" id="techno-name" />
