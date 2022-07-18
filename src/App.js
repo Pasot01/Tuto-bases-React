@@ -1,52 +1,64 @@
-import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
-import './css/app.css';
-import Home from './pages/Home'
-import Menu from './components/Menu';
-import TechnoAdd from './pages/TechnoAdd';
-import TechnoList from './pages/TechnoList';
-import {useLocalStorage} from './hooks/useLocalSorage';
+import React, { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+
+import "./css/app.css";
+import Menu from "./components/Menu";
+import Home from "./pages/Home";
+import TechnoAdd from "./pages/TechnoAdd";
+import TechnoList from "./pages/TechnoList";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
-  // Utilisation de useState avec un tableau vide (morceau d'état/me) qui contiendra des objets
-  // (me/getter/technos) - ex: -> [{name: 'react', category: 'front', description: 'Learn React'}, {autre objet}, {autre objet}]
-  // (me/setter/setTechnos) - modification des objets
   const [technos, setTechnos] = useState([]);
-const STORAGE_KEY = 'technos';
-const [storedTechnos, setStoredTechnos] = useLocalStorage(STORAGE_KEY, []);
 
+  const STORAGE_KEY = "technos";
+  const [storedTechnos, setStoredTechnos] = useLocalStorage(STORAGE_KEY, []);
+
+  // On first App component mount
   useEffect(() => {
-    console.log('useEffect with []');
     setTechnos(storedTechnos);
-  }, [storedTechnos]);
+    console.log("App component mounted");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  // On every technos change
   useEffect(() => {
-    console.log('useEffect with [technos]');
     setStoredTechnos(technos);
-  }, [setStoredTechnos, technos]);
+    console.log("Technos changed");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [technos]);
 
-  // fonction de jonction parent(App)/enfant(TechnoAdd) - (props = valeur(fonction) -> TechnoAdd/App -> App/TechnoAdd)
   function handleAddTechno(techno) {
-    console.log('handleAddTechno', techno);
-    setTechnos([...technos, {...techno, technoid: uuidv4()}]);
+    setTechnos([...technos, { ...techno, technoid: uuidv4() }]);
   }
 
-  // fonction de jonction parent(App)/enfant(TechnoList) - (props = valeur(fonction) -> TechnoList/App -> App/TechnoList)
-  function handleDeleteTechno(id) {
-    setTechnos(technos.filter((tech) => tech.technoid !== id));
+  function handleDeleteTechno(technoId) {
+    setTechnos(technos.filter((techno) => techno.technoid !== technoId));
   }
+
   return (
     <>
-    <Menu />
-    <Routes>
-      <Route path="/" element={ <Home /> } />
-      <Route path="/add" element={ <TechnoAdd handleAddTechno={handleAddTechno} /> } />
-      <Route path="/list" element={ <TechnoList technos={technos} handleDeleteTechno={handleDeleteTechno} />} />
-    </Routes>
+      <Menu />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/add"
+          element={<TechnoAdd handleAddTechno={handleAddTechno} />}
+        />
+        handleDeleteTechno={handleDeleteTechno}
+        <Route
+          path="/list"
+          element={
+            <TechnoList
+              technos={technos}
+              handleDeleteTechno={handleDeleteTechno}
+            />
+          }
+        />
+      </Routes>
     </>
   );
 }
-
 
 export default App;
