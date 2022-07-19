@@ -4,7 +4,7 @@
   }
   
   .btn {
-    background-color: #4CAF50;
+    background-color: darkslateblue;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -44,6 +44,7 @@
     box-sizing: border-box;
   }
   
-  h1 {
+  .technoadd-h1 {
     text-align: center;
+    color: darkslateblue;
   }

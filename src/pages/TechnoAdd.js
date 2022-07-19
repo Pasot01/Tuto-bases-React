@@ -27,7 +27,7 @@ export default function TechnoAdd(props) {
 
     return (
         <div className="techno-add">
-            <h1>Add a Techno</h1>
+            <h1 className="technoadd-h1">Add a Techno</h1>
             <div>
                 <form onSubmit={(evt) => handleSubmit(evt)}>
                     <label htmlFor="technoname">Name</label>
